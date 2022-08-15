@@ -72,19 +72,19 @@ class PersonActor {
     final result = <String, dynamic>{};
 
     result.addAll({'adult': adult});
-    result.addAll({'alsoKnownAs': alsoKnownAs});
+    result.addAll({'also_known_as': alsoKnownAs});
     result.addAll({'biography': biography});
     result.addAll({'birthday': birthday.millisecondsSinceEpoch});
     result.addAll({'deathday': deathday});
     result.addAll({'gender': gender});
     result.addAll({'homepage': homepage});
     result.addAll({'id': id});
-    result.addAll({'imdbId': imdbId});
-    result.addAll({'knownForDepartment': knownForDepartment});
+    result.addAll({'imdb_id': imdbId});
+    result.addAll({'known_for_department': knownForDepartment});
     result.addAll({'name': name});
-    result.addAll({'placeOfBirth': placeOfBirth});
+    result.addAll({'place_of_birth': placeOfBirth});
     result.addAll({'popularity': popularity});
-    result.addAll({'profilePath': profilePath});
+    result.addAll({'profile_path': profilePath});
 
     return result;
   }
@@ -92,7 +92,7 @@ class PersonActor {
   factory PersonActor.fromMap(Map<String, dynamic> map) {
     return PersonActor(
         adult: map['adult'] ?? false,
-        alsoKnownAs: List<String>.from(map['alsoKnownAs'] ?? []),
+        alsoKnownAs: List<String>.from(map['also_known_as'] ?? []),
         biography: map['biography'] ?? '',
         birthday: DateTime.fromMillisecondsSinceEpoch(
             map['birthday'] ?? DateTime.now().millisecondsSinceEpoch),
@@ -100,12 +100,12 @@ class PersonActor {
         gender: map['gender']?.toInt() ?? 0,
         homepage: map['homepage'] ?? '',
         id: map['id']?.toInt() ?? 0,
-        imdbId: map['imdbId'] ?? '',
-        knownForDepartment: map['knownForDepartment'] ?? '',
+        imdbId: map['imdb_id'] ?? '',
+        knownForDepartment: map['known_for_department'] ?? '',
         name: map['name'] ?? '',
-        placeOfBirth: map['placeOfBirth'] ?? '',
+        placeOfBirth: map['place_of_birth'] ?? '',
         popularity: map['popularity']?.toDouble() ?? 0.0,
-        profilePath: map['profilePath'] ?? '');
+        profilePath: map['profile_path'] ?? '');
   }
 
   String toJson() => json.encode(toMap());
