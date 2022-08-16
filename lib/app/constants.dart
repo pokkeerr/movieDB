@@ -13,4 +13,6 @@ class Constants {
 
   static const getPopularPersons = "${baseUrl}person/popular?api_key=$API_KEY";
   static const getPersonById = "${baseUrl}person/person_id?api_key=$API_KEY";
+  static const getPersonImagesById =
+      "${baseUrl}person/person_id/images?api_key=$API_KEY";
 }

@@ -1,6 +1,6 @@
 class PopularActors {
   int? page;
-  List<PopukerActorResults>? results;
+  List<PopulerActorResults>? results;
   int? totalPages;
   int? totalResults;
 
@@ -12,7 +12,7 @@ class PopularActors {
     results = json["results"] == null
         ? null
         : (json["results"] as List)
-            .map((e) => PopukerActorResults.fromJson(e))
+            .map((e) => PopulerActorResults.fromJson(e))
             .toList();
     totalPages = json["total_pages"];
     totalResults = json["total_results"];
@@ -31,7 +31,7 @@ class PopularActors {
 
   PopularActors copyWith({
     int? page,
-    List<PopukerActorResults>? results,
+    List<PopulerActorResults>? results,
     int? totalPages,
     int? totalResults,
   }) =>
@@ -43,7 +43,7 @@ class PopularActors {
       });
 }
 
-class PopukerActorResults {
+class PopulerActorResults {
   bool? adult;
   int? gender;
   int? id;
@@ -53,7 +53,7 @@ class PopukerActorResults {
   double? popularity;
   String? profilePath;
 
-  PopukerActorResults(Map<Object?, Object?> map,
+  PopulerActorResults(Map<Object?, Object?> map,
       {this.adult,
       this.gender,
       this.id,
@@ -63,7 +63,7 @@ class PopukerActorResults {
       this.popularity,
       this.profilePath});
 
-  PopukerActorResults.fromJson(Map<String, dynamic> json) {
+  PopulerActorResults.fromJson(Map<String, dynamic> json) {
     adult = json["adult"];
     gender = json["gender"];
     id = json["id"];
@@ -91,7 +91,7 @@ class PopukerActorResults {
     return data;
   }
 
-  PopukerActorResults copyWith({
+  PopulerActorResults copyWith({
     bool? adult,
     int? gender,
     int? id,
@@ -101,7 +101,7 @@ class PopukerActorResults {
     double? popularity,
     String? profilePath,
   }) =>
-      PopukerActorResults({
+      PopulerActorResults({
         adult: adult ?? this.adult,
         gender: gender ?? this.gender,
         id: id ?? this.id,
