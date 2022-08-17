@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 class PopularActors {
   int? page;
   List<PopulerActorResults>? results;
@@ -18,11 +20,33 @@ class PopularActors {
     totalResults = json["total_results"];
   }
 
+  PopularActors.fromDBJson(Map<String, dynamic> map) {
+    page = map["page"];
+    results = map["results"] == null
+        ? null
+        : (json.decode(map["results"]) as List)
+            .map((e) => PopulerActorResults.fromDBJson(e))
+            .toList();
+    totalPages = map["total_pages"];
+    totalResults = map["total_results"];
+  }
+
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = {};
     data["page"] = page;
     if (results != null) {
       data["results"] = results?.map((e) => e.toJson()).toList();
+    }
+    data["total_pages"] = totalPages;
+    data["total_results"] = totalResults;
+    return data;
+  }
+
+  Map<String, dynamic> toDBmap() {
+    final Map<String, dynamic> data = {};
+    data["page"] = page;
+    if (results != null) {
+      data["results"] = json.encode(results?.map((e) => e.toDBJson()).toList());
     }
     data["total_pages"] = totalPages;
     data["total_results"] = totalResults;
@@ -76,6 +100,21 @@ class PopulerActorResults {
     profilePath = json["profile_path"];
   }
 
+  PopulerActorResults.fromDBJson(Map<String, dynamic> map) {
+    adult = map["adult"] == 1;
+    gender = map["gender"];
+    id = map["id"];
+    knownFor = map["known_for"] == null
+        ? null
+        : (json.encode(map["known_for"]) as List)
+            .map((e) => KnownFor.fromDBJson(e))
+            .toList();
+    knownForDepartment = map["known_for_department"];
+    name = map["name"];
+    popularity = map["popularity"];
+    profilePath = map["profile_path"];
+  }
+
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = {};
     data["adult"] = adult;
@@ -83,6 +122,22 @@ class PopulerActorResults {
     data["id"] = id;
     if (knownFor != null) {
       data["known_for"] = knownFor?.map((e) => e.toJson()).toList();
+    }
+    data["known_for_department"] = knownForDepartment;
+    data["name"] = name;
+    data["popularity"] = popularity;
+    data["profile_path"] = profilePath;
+    return data;
+  }
+
+  Map<String, dynamic> toDBJson() {
+    final Map<String, dynamic> data = {};
+    data["adult"] = (adult ?? false) ? 1 : 0;
+    data["gender"] = gender;
+    data["id"] = id;
+    if (knownFor != null) {
+      data["known_for"] =
+          json.encode(knownFor?.map((e) => e.toDBJson()).toList());
     }
     data["known_for_department"] = knownForDepartment;
     data["name"] = name;
@@ -163,9 +218,46 @@ class KnownFor {
     voteCount = json["vote_count"];
   }
 
+  KnownFor.fromDBJson(Map<String, dynamic> map) {
+    adult = map["adult"] == 1;
+    backdropPath = map["backdrop_path"];
+    genreIds =
+        map["genre_ids"] == null ? null : List<int>.from(map["genre_ids"]);
+    id = map["id"];
+    mediaType = map["media_type"];
+    originalLanguage = map["original_language"];
+    originalTitle = map["original_title"];
+    overview = map["overview"];
+    posterPath = map["poster_path"];
+    releaseDate = map["release_date"];
+    title = map["title"];
+    video = map["video"];
+    voteAverage = double?.tryParse(map["vote_average"].toString());
+    voteCount = map["vote_count"];
+  }
+
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = {};
     data["adult"] = adult;
+    data["backdrop_path"] = backdropPath;
+    if (genreIds != null) data["genre_ids"] = genreIds;
+    data["id"] = id;
+    data["media_type"] = mediaType;
+    data["original_language"] = originalLanguage;
+    data["original_title"] = originalTitle;
+    data["overview"] = overview;
+    data["poster_path"] = posterPath;
+    data["release_date"] = releaseDate;
+    data["title"] = title;
+    data["video"] = video;
+    data["vote_average"] = voteAverage;
+    data["vote_count"] = voteCount;
+    return data;
+  }
+
+  Map<String, dynamic> toDBJson() {
+    final Map<String, dynamic> data = {};
+    data["adult"] = (adult ?? false) ? 1 : 0;
     data["backdrop_path"] = backdropPath;
     if (genreIds != null) data["genre_ids"] = genreIds;
     data["id"] = id;

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 class ActorDeatils {
   bool? adult;
   List<String>? alsoKnownAs;
@@ -48,10 +50,49 @@ class ActorDeatils {
     popularity = json["popularity"];
     profilePath = json["profile_path"];
   }
+  ActorDeatils.fromDb(Map<String, dynamic> map) {
+    adult = map["adult"] == 1;
+    alsoKnownAs = map["also_known_as"] == null
+        ? null
+        : List<String>.from(json.decode(map["also_known_as"]));
+    biography = map["biography"];
+    birthday = map["birthday"];
+    deathday = map["deathday"];
+    gender = map["gender"];
+    homepage = map["homepage"];
+    id = map["id"];
+    imdbId = map["imdb_id"];
+    knownForDepartment = map["known_for_department"];
+    name = map["name"];
+    placeOfBirth = map["place_of_birth"];
+    popularity = map["popularity"];
+    profilePath = map["profile_path"];
+  }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = {};
     data["adult"] = adult;
+    if (alsoKnownAs != null) {
+      data["also_known_as"] = json.encode(alsoKnownAs);
+    }
+    data["biography"] = biography;
+    data["birthday"] = birthday;
+    data["deathday"] = deathday;
+    data["gender"] = gender;
+    data["homepage"] = homepage;
+    data["id"] = id;
+    data["imdb_id"] = imdbId;
+    data["known_for_department"] = knownForDepartment;
+    data["name"] = name;
+    data["place_of_birth"] = placeOfBirth;
+    data["popularity"] = popularity;
+    data["profile_path"] = profilePath;
+    return data;
+  }
+
+  Map<String, dynamic> toDBmap() {
+    final Map<String, dynamic> data = {};
+    data["adult"] = (adult ?? false) ? 1 : 0;
     if (alsoKnownAs != null) {
       data["also_known_as"] = alsoKnownAs;
     }

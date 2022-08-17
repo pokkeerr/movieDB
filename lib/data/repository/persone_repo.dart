@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:movedb/data/data_source/database/tables/popular_person_table.dart';
 
 import '../../app/constants.dart';
 import '../models/actor_deatils.dart';
@@ -17,7 +18,9 @@ class PersonRepository {
     try {
       final response = await _dio.get(Constants.getPopularPersons);
       if (response.statusCode == 200) {
-        return PopularActors.fromJson(response.data);
+        final p = PopularActors.fromJson(response.data);
+        await PopularActorsTable().add(p);
+        return p;
       }
     } catch (e) {
       log(e.toString());

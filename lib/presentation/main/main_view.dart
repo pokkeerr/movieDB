@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:movedb/app/constants.dart';
 import 'package:movedb/data/repository/persone_repo.dart';
@@ -37,12 +38,11 @@ class _MainViewState extends State<MainView> {
                               mainAxisSize: MainAxisSize.max,
                               children: [
                                 Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Text(actor.name!,
-                                      style: const TextStyle(
-                                          fontWeight: FontWeight.bold,
-                                          fontSize: 17)),
-                                ),
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Text(actor.name!,
+                                        style: const TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 17))),
                                 Row(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
@@ -57,22 +57,27 @@ class _MainViewState extends State<MainView> {
                                                       actor.id ??
                                                       " "),
                                                   child: Container(
-                                                      margin:
-                                                          const EdgeInsets.all(
-                                                              5),
-                                                      height: 160,
-                                                      width: 160,
-                                                      decoration: BoxDecoration(
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(10),
-                                                          image: DecorationImage(
-                                                              image: NetworkImage(
-                                                                  Constants.IMAGEPATH +
-                                                                      (actor.profilePath ??
-                                                                          " ")),
-                                                              fit: BoxFit
-                                                                  .cover)))),
+                                                    margin:
+                                                        const EdgeInsets.all(5),
+                                                    decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(10)),
+                                                    child: CachedNetworkImage(
+                                                        height: 160,
+                                                        width: 160,
+                                                        fit: BoxFit.cover,
+                                                        alignment:
+                                                            Alignment.center,
+                                                        errorWidget: (context,
+                                                                url, error) =>
+                                                            const Icon(
+                                                                Icons.error),
+                                                        imageUrl: Constants
+                                                                .IMAGEPATH +
+                                                            (actor.profilePath ??
+                                                                " ")),
+                                                  )),
                                               onTap: () async {
                                                 // final ac = await PersonRepository
                                                 //     .getPersoneByID(
@@ -187,19 +192,21 @@ class _MainViewState extends State<MainView> {
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             Hero(
-                              tag: e.posterPath ?? e.id ?? " ",
-                              child: Container(
-                                  margin: const EdgeInsets.all(3),
-                                  padding: const EdgeInsets.all(3),
-                                  height: 50,
-                                  width: 50,
-                                  decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(5),
-                                      image: DecorationImage(
-                                          image: NetworkImage(
-                                              "${Constants.IMAGEPATH}${e.backdropPath}"),
-                                          fit: BoxFit.cover))),
-                            ),
+                                tag: e.posterPath ?? e.id ?? " ",
+                                child: Container(
+                                    margin: const EdgeInsets.all(3),
+                                    padding: const EdgeInsets.all(3),
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(5)),
+                                    child: CachedNetworkImage(
+                                        height: 50,
+                                        width: 50,
+                                        fit: BoxFit.cover,
+                                        alignment: Alignment.center,
+                                        errorWidget: (context, url, error) =>
+                                            const Icon(Icons.error),
+                                        imageUrl:
+                                            "${Constants.IMAGEPATH}${e.posterPath}")))
                           ]),
                       Expanded(
                           child: Column(

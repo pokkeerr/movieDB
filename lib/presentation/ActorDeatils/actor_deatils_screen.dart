@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -66,31 +67,15 @@ class _ActorDeatilsScreenState extends State<ActorDeatilsScreen> {
                           tag: (_actorResults?.profilePath ??
                               _actorResults?.id ??
                               " "),
-                          child: Container(
+                          child: CachedNetworkImage(
+                              height: _h * .55,
+                              width: _w,
+                              fit: BoxFit.cover,
                               alignment: Alignment.center,
-                              decoration: BoxDecoration(
-                                  borderRadius: const BorderRadius.all(
-                                      Radius.circular(15)),
-                                  image: DecorationImage(
-                                      image: NetworkImage(Constants.IMAGEPATH +
-                                          (_actorResults?.profilePath ?? " ")),
-                                      fit: BoxFit.cover)))),
-                      // Positioned(
-                      //     left: 1,
-                      //     bottom: 1,
-                      //     child: Padding(
-                      //         padding: const EdgeInsets.only(
-                      //             bottom: 18.0, left: 10, right: 10),
-                      //         child: Column(children: [
-                      //           Text(_actorResults?.name ?? " ",
-                      //               overflow: TextOverflow.ellipsis,
-                      //               style: TextStyle(
-                      //                   color: Colors.white,
-                      //                   backgroundColor:
-                      //                       Colors.white.withOpacity(0.2),
-                      //                   fontWeight: FontWeight.bold,
-                      //                   fontSize: 22)),
-                      //         ])))
+                              errorWidget: (context, url, error) =>
+                                  const Icon(Icons.error),
+                              imageUrl: Constants.IMAGEPATH +
+                                  (_actorResults?.profilePath ?? " ")))
                     ])))
               ];
             },
@@ -169,15 +154,19 @@ class _ActorDeatilsScreenState extends State<ActorDeatilsScreen> {
                                     Container(
                                         margin: const EdgeInsets.all(5),
                                         padding: const EdgeInsets.all(5),
-                                        height: 150,
-                                        width: 150,
                                         decoration: BoxDecoration(
                                             borderRadius:
-                                                BorderRadius.circular(5),
-                                            image: DecorationImage(
-                                                image: NetworkImage(
-                                                    "${Constants.IMAGEPATH}${e.backdropPath}"),
-                                                fit: BoxFit.cover))),
+                                                BorderRadius.circular(5)),
+                                        child: CachedNetworkImage(
+                                            fit: BoxFit.cover,
+                                            height: 150,
+                                            width: 150,
+                                            alignment: Alignment.center,
+                                            errorWidget:
+                                                (context, url, error) =>
+                                                    const Icon(Icons.error),
+                                            imageUrl: Constants.IMAGEPATH +
+                                                (e.posterPath ?? " "))),
                                     Padding(
                                         padding: const EdgeInsets.symmetric(
                                             horizontal: 8.0),
@@ -254,16 +243,20 @@ class _ActorDeatilsScreenState extends State<ActorDeatilsScreen> {
                         child: Hero(
                             tag: data.profiles![i].filePath!,
                             child: Container(
-                                margin: const EdgeInsets.all(5),
-                                padding: const EdgeInsets.all(5),
-                                height: 120,
-                                width: 120,
-                                decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(5),
-                                    image: DecorationImage(
-                                        image: NetworkImage(
-                                            "${Constants.IMAGEPATH}${data.profiles![i].filePath}"),
-                                        fit: BoxFit.cover)))),
+                              margin: const EdgeInsets.all(5),
+                              padding: const EdgeInsets.all(5),
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(5)),
+                              child: CachedNetworkImage(
+                                  fit: BoxFit.cover,
+                                  height: 120,
+                                  width: 120,
+                                  alignment: Alignment.center,
+                                  errorWidget: (context, url, error) =>
+                                      const Icon(Icons.error),
+                                  imageUrl:
+                                      "${Constants.IMAGEPATH}${data.profiles![i].filePath}"),
+                            )),
                         onTap: () async {
                           showDialog(
                               context: context,

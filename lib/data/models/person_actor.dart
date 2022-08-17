@@ -89,10 +89,50 @@ class PersonActor {
     return result;
   }
 
+  Map<String, dynamic> toDBMap() {
+    final result = <String, dynamic>{};
+
+    result.addAll({'adult': (adult) ? 1 : 0});
+    result.addAll({'also_known_as': json.encode(alsoKnownAs)});
+    result.addAll({'biography': biography});
+    result.addAll({'birthday': birthday.millisecondsSinceEpoch});
+    result.addAll({'deathday': deathday});
+    result.addAll({'gender': gender});
+    result.addAll({'homepage': homepage});
+    result.addAll({'id': id});
+    result.addAll({'imdb_id': imdbId});
+    result.addAll({'known_for_department': knownForDepartment});
+    result.addAll({'name': name});
+    result.addAll({'place_of_birth': placeOfBirth});
+    result.addAll({'popularity': popularity});
+    result.addAll({'profile_path': profilePath});
+
+    return result;
+  }
+
   factory PersonActor.fromMap(Map<String, dynamic> map) {
     return PersonActor(
         adult: map['adult'] ?? false,
         alsoKnownAs: List<String>.from(map['also_known_as'] ?? []),
+        biography: map['biography'] ?? '',
+        birthday: DateTime.fromMillisecondsSinceEpoch(
+            map['birthday'] ?? DateTime.now().millisecondsSinceEpoch),
+        deathday: DateTime.parse(map['deathday'] ?? DateTime.now().toString()),
+        gender: map['gender']?.toInt() ?? 0,
+        homepage: map['homepage'] ?? '',
+        id: map['id']?.toInt() ?? 0,
+        imdbId: map['imdb_id'] ?? '',
+        knownForDepartment: map['known_for_department'] ?? '',
+        name: map['name'] ?? '',
+        placeOfBirth: map['place_of_birth'] ?? '',
+        popularity: map['popularity']?.toDouble() ?? 0.0,
+        profilePath: map['profile_path'] ?? '');
+  }
+
+  factory PersonActor.fromDBMap(Map<String, dynamic> map) {
+    return PersonActor(
+        adult: (map['adult'] == 1),
+        alsoKnownAs: List<String>.from(json.decode(map['also_known_as'] ?? [])),
         biography: map['biography'] ?? '',
         birthday: DateTime.fromMillisecondsSinceEpoch(
             map['birthday'] ?? DateTime.now().millisecondsSinceEpoch),

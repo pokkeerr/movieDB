@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 class ActorImages {
   int? id;
   List<Profiles>? profiles;
@@ -10,12 +12,30 @@ class ActorImages {
         ? null
         : (json["profiles"] as List).map((e) => Profiles.fromJson(e)).toList();
   }
+  ActorImages.fromDb(Map<String, dynamic> map) {
+    id = map["id"];
+    profiles = map["profiles"] == null
+        ? null
+        : (json.encode(map["profiles"]) as List)
+            .map((e) => Profiles.fromDB(e))
+            .toList();
+  }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = {};
     data["id"] = id;
     if (profiles != null) {
       data["profiles"] = profiles?.map((e) => e.toJson()).toList();
+    }
+    return data;
+  }
+
+  Map<String, dynamic> toDBMap() {
+    final Map<String, dynamic> data = {};
+    data["id"] = id;
+    if (profiles != null) {
+      data["profiles"] =
+          json.encode(profiles?.map((e) => e.toDBJson()).toList());
     }
     return data;
   }
@@ -54,8 +74,29 @@ class Profiles {
     voteCount = json["vote_count"];
     width = json["width"];
   }
+  Profiles.fromDB(Map<String, dynamic> map) {
+    aspectRatio = map["aspect_ratio"];
+    height = map["height"];
+    iso6391 = map["iso_639_1"];
+    filePath = map["file_path"];
+    voteAverage = map["vote_average"];
+    voteCount = map["vote_count"];
+    width = map["width"];
+  }
 
   Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = {};
+    data["aspect_ratio"] = aspectRatio;
+    data["height"] = height;
+    data["iso_639_1"] = iso6391;
+    data["file_path"] = filePath;
+    data["vote_average"] = voteAverage;
+    data["vote_count"] = voteCount;
+    data["width"] = width;
+    return data;
+  }
+
+  Map<String, dynamic> toDBJson() {
     final Map<String, dynamic> data = {};
     data["aspect_ratio"] = aspectRatio;
     data["height"] = height;
